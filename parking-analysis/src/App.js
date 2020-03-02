@@ -1,26 +1,26 @@
-import mysql from 'mysql';
+//import mysql from 'mysql';
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import axios from './api/axiosConfig';
 
 class App extends Component {
-//   componentDidMount(){
-//     let connection = mysql.createConnection({
-//       host     : '206.189.223.40',
-//       user     : 'root',
-//       password : 'T5&h=<.\\hQjh\\~Bh',
-//       database : 'parking_analysis'
-//     });
-    
-//     connection.connect((err) => {
-//       if (err) {
-//           console.log('Connection error message: ' + err.message);
-//           return;
-//       }
-//       console.log('Connected!')
-//     });
-  // }
+
+  state={
+    cars: []
+  }
+  componentDidMount(){
+    axios.get('/cars')
+      .then(res => {
+        this.setState({ cars: res.data })
+        alert(this.state.cars[0].cars)
+      })
+      .catch(err => {
+        alert('error!')
+      })
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -31,6 +31,17 @@ class App extends Component {
         <p className="App-intro">
           Digital Ocean Server <code> </code> 
         </p>
+        {
+          this.state.cars.map((car) =>{
+            return (
+              <div>
+                <p style={{float: "left"}}>{car.id} </p>
+                <p style={{float: "left"}}>{car.cars}</p>
+                <br></br>
+              </div>
+            )
+          })
+        }
       </div>
     );
   }
